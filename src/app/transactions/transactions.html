@@ -1,0 +1,111 @@
+<div class="transactions-page">
+
+  <header class="top-bar">
+    <div>
+      <div class="logo">STANDARD BANK</div>
+      <div class="subtitle">Personal & Private Banking</div>
+    </div>
+
+    <button class="back-button" (click)="goToDashboard()">
+      Back to Dashboard
+    </button>
+  </header>
+
+  <main class="content">
+
+    <h1>Transaction History</h1>
+
+    <p class="intro">
+      View transactions across your accounts.
+    </p>
+
+    @if (isLoading) {
+      <p class="status">Loading your transactions...</p>
+    }
+
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+
+    @if (!isLoading && transactions.length === 0) {
+      <div class="empty-state">
+        <h2>No transactions found</h2>
+        <p>You currently don't have any transactions.</p>
+      </div>
+    }
+
+    @if (!isLoading && transactions.length > 0) {
+
+      <div class="transaction-list">
+
+        @for (transaction of transactions; track transaction.id) {
+
+          <div class="transaction-card">
+
+            <div class="transaction-main">
+
+              <div>
+                <div class="transaction-type">
+                  {{ transaction.transactionType || 'Transaction' }}
+                </div>
+
+                <div class="transaction-account">
+                  Account {{ transaction.account.accountNumber }}
+                  · {{ transaction.account.accountType }}
+                </div>
+              </div>
+
+              @if (transaction.direction === 'CREDIT') {
+                <div class="amount credit">
+                  + R {{ transaction.amount | number:'1.2-2' }}
+                </div>
+              } @else if (transaction.direction === 'DEBIT') {
+                <div class="amount debit">
+                  - R {{ transaction.amount | number:'1.2-2' }}
+                </div>
+              } @else {
+                <div class="amount">
+                  R {{ transaction.amount | number:'1.2-2' }}
+                </div>
+              }
+
+            </div>
+
+            @if (transaction.transactionType === 'TRANSFER'
+              && transaction.relatedAccount) {
+
+              @if (transaction.direction === 'DEBIT') {
+                <div class="transfer-details">
+                  <span>To</span>
+                  <strong>
+                    {{ transaction.relatedAccount.accountNumber }}
+                  </strong>
+                </div>
+              }
+
+              @if (transaction.direction === 'CREDIT') {
+                <div class="transfer-details">
+                  <span>From</span>
+                  <strong>
+                    {{ transaction.relatedAccount.accountNumber }}
+                  </strong>
+                </div>
+              }
+
+            }
+
+            <div class="transaction-date">
+              {{ transaction.timestamp | date:'dd MMM yyyy, HH:mm' }}
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </main>
+
+</div>

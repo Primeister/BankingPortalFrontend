@@ -1,0 +1,101 @@
+<div class="dashboard">
+
+  <header class="top-bar">
+
+    <div>
+      <div class="logo">STANDARD BANK</div>
+      <div class="subtitle">Personal & Private Banking</div>
+    </div>
+
+    <button class="logout-button" (click)="logout()">
+        Logout
+    </button>
+
+  </header>
+
+  <main class="content">
+
+    <h1>My Dashboard</h1>
+
+    <p class="welcome">
+      Welcome to your banking portal.
+    </p>
+
+    <div class="action-buttons">
+        <button class="transactions-button" (click)="viewTransactions()">
+            View Transactions
+        </button>
+
+        <button class="recurring-button" (click)="viewRecurringPayments()">
+            Recurring Payments
+        </button>
+
+        <button class="transfer-button" (click)="viewTransfer()">
+            Transfer Money
+        </button>
+    </div>
+
+    @if (isLoading) {
+
+      <p class="status">Loading your accounts...</p>
+
+    }
+
+    @if (errorMessage) {
+
+      <p class="error">{{ errorMessage }}</p>
+
+    }
+
+    @if (!isLoading && accounts.length === 0) {
+
+      <div class="empty-state">
+        <h2>No accounts found</h2>
+        <p>You currently don't have any bank accounts.</p>
+      </div>
+
+    }
+
+    @if (!isLoading && accounts.length > 0) {
+
+      <section class="accounts">
+
+        <h2>My Accounts</h2>
+
+        <div class="account-grid">
+
+          @for (account of accounts; track account.id) {
+
+            <div class="account-card">
+
+              <div class="account-header">
+
+                <span>{{ account.accountType }}</span>
+
+                <span class="account-number">
+                  {{ account.accountNumber }}
+                </span>
+
+              </div>
+
+              <div class="balance-label">
+                Available Balance
+              </div>
+
+              <div class="balance">
+                R {{ account.balance | number:'1.2-2' }}
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+      </section>
+
+    }
+
+  </main>
+
+</div>

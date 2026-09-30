@@ -1,0 +1,152 @@
+<div class="admin-page">
+
+  <header class="top-bar">
+
+    <div>
+      <div class="logo">STANDARD BANK</div>
+      <div class="subtitle">Personal & Private Banking - Admin</div>
+    </div>
+
+    <button class="logout-button" (click)="logout()">
+      Logout
+    </button>
+
+  </header>
+
+  <main class="content">
+
+    <h1>Admin Dashboard</h1>
+
+    <p class="intro">
+      View registered customers and bank accounts.
+    </p>
+
+    @if (isLoading) {
+      <p class="status">Loading admin data...</p>
+    }
+
+    @if (errorMessage) {
+      <p class="error">{{ errorMessage }}</p>
+    }
+
+    @if (!isLoading) {
+
+      <section class="section">
+
+        <h2>Customers</h2>
+
+        @if (customers.length === 0) {
+
+          <div class="empty-state">
+            <p>No customers found.</p>
+          </div>
+
+        } @else {
+
+          <div class="table-container">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>ID</th>
+                  <th>Name</th>
+                  <th>Email</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @for (customer of customers; track customer.id) {
+
+                  <tr>
+                    <td>{{ customer.id }}</td>
+
+                    <td>
+                      {{ customer.firstName }}
+                      {{ customer.lastName }}
+                    </td>
+
+                    <td>{{ customer.email }}</td>
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        }
+
+      </section>
+
+
+      <section class="section">
+
+        <h2>Bank Accounts</h2>
+
+        @if (accounts.length === 0) {
+
+          <div class="empty-state">
+            <p>No bank accounts found.</p>
+          </div>
+
+        } @else {
+
+          <div class="table-container">
+
+            <table>
+
+              <thead>
+                <tr>
+                  <th>Account Number</th>
+                  <th>Type</th>
+                  <th>Balance</th>
+                  <th>Customer</th>
+                </tr>
+              </thead>
+
+              <tbody>
+
+                @for (account of accounts; track account.id) {
+
+                  <tr>
+
+                    <td>
+                      {{ account.accountNumber }}
+                    </td>
+
+                    <td>
+                      {{ account.accountType }}
+                    </td>
+
+                    <td>
+                      R {{ account.balance | number:'1.2-2' }}
+                    </td>
+
+                    <td>
+                      {{ account.customer.firstName }}
+                      {{ account.customer.lastName }}
+                    </td>
+
+                  </tr>
+
+                }
+
+              </tbody>
+
+            </table>
+
+          </div>
+
+        }
+
+      </section>
+
+    }
+
+  </main>
+
+</div>
