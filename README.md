@@ -1,59 +1,123 @@
-# BankingPortalFrontend
+# Banking Portal Frontend
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 22.1.7.
+A modern Angular banking portal for managing customer accounts, transfers, transaction history, and administrative oversight.
 
-## Development server
+## Overview
 
-To start a local development server, run:
+This frontend application provides a streamlined user experience for:
 
-```bash
-ng serve
+- customer authentication and role-based access
+- account dashboard with balances and account details
+- transaction history and activity review
+- inter-account transfers
+- recurring payment management
+- administrator views for customers and account data
+
+The app is built with Angular and communicates with a backend API running at `http://localhost:8080`.
+
+## Tech Stack
+
+- Angular 22
+- TypeScript
+- RxJS
+- Angular CLI
+- Vitest for testing
+
+## Features
+
+### Customer experience
+- secure login flow with token-based authentication
+- dashboard overview for available bank accounts
+- transfer funds between accounts
+- view recent transaction activity
+- manage recurring payments
+
+### Admin experience
+- view customer records
+- review account details across the system
+- access restricted by admin guard
+
+## Project Structure
+
+```text
+src/
+├── app/
+│   ├── admin/
+│   ├── dashboard/
+│   ├── guards/
+│   ├── interceptors/
+│   ├── login/
+│   ├── recurring-payments/
+│   ├── services/
+│   ├── transactions/
+│   ├── transfer/
+│   ├── app.config.ts
+│   ├── app.routes.ts
+│   ├── app.ts
+│   └── app.html
+├── main.ts
+├── styles.css
+└── index.html
 ```
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+## Prerequisites
 
-## Code scaffolding
+Before running the app, make sure you have:
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+- Node.js 20 or newer
+- npm 10 or newer
+- the banking backend API running on `http://localhost:8080`
 
-```bash
-ng generate component component-name
-```
+## Getting Started
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
+Install dependencies:
 
 ```bash
-ng build
+npm install
 ```
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+Start the development server:
 
 ```bash
-ng test
+npm start
 ```
 
-## Running end-to-end tests
+Then open:
 
-For end-to-end (e2e) testing, run:
+```text
+http://localhost:4200
+```
+
+The Angular dev server automatically reloads when source files change.
+
+## Available Scripts
 
 ```bash
-ng e2e
+npm start       # runs ng serve
+npm run build   # builds the production bundle
+npm run watch   # builds in watch mode for development
+npm run test    # runs the test suite
 ```
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
+## Backend Integration
 
-## Additional Resources
+This frontend expects a backend service exposing the following routes:
 
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+- `POST /api/auth/login`
+- `GET /api/accounts`
+- `GET /api/transactions`
+- `POST /api/transactions/transfer`
+- `GET /api/admin/customers`
+- `GET /api/admin/accounts`
+
+The app stores the JWT token in `localStorage` and reads the role from the token payload to decide whether to redirect to the customer dashboard or admin page.
+
+## Development Notes
+
+- route protection is handled through Angular guards in `src/app/guards/`
+- API logic is centralized in services under `src/app/services/`
+- the app uses lazy-style route configuration through the Angular router
+
+## License
+
+This project is provided as a frontend application for the banking portal demo and is intended for local development and learning purposes.
